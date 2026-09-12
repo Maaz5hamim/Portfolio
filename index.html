@@ -685,12 +685,12 @@ function go(section,replace){
   $('#qInput').value=q;
   renderTabs(section); renderPanel(section); renderList(section);
   const state={section};
-  replace?history.replaceState(state,'',`?q=${encodeURIComponent(q)}`):history.pushState(state,'',`?q=${encodeURIComponent(q)}`);
+  replace?history.replaceState(state,'','#'+section):history.pushState(state,'','#'+section);
   window.scrollTo(0,0);
 }
 
 function goHome(){
-  history.pushState({home:true},'','/');
+  history.pushState({home:true},'',location.pathname);
   $('#results').style.display='none';
   $('#home').style.display='flex';
   document.title='Google';
@@ -751,7 +751,7 @@ document.addEventListener('keydown',e=>{
 });
 
 window.addEventListener('popstate',e=>{
-  if(e.state?.home){$('#results').style.display='none';$('#home').style.display='flex';}
+  if(e.state?.home||!e.state){$('#results').style.display='none';$('#home').style.display='flex';}
   else if(e.state?.section){$('#home').style.display='none';$('#results').style.display='block';renderTabs(e.state.section);renderPanel(e.state.section);renderList(e.state.section);}
 });
 
