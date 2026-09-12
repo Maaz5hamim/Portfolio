@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maaz Shamim - Google Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap">
+<style>
+:root{
+  --blue:#1a73e8;--blue-h:#1557b0;
+  --green:#0d652d;--url:#006621;
+  --text:#202124;--gray:#4d5156;--light:#70757a;
+  --bg:#fff;--bg2:#f8f9fa;--border:#dfe1e5;--border2:#e8eaed;
+  --kbg:#fff;--shadow:rgba(32,33,36,.28);
+  --tag-bg:#f1f3f4;--tag-bd:#dadce0;
+  --exp-bg:#f8f9ff;--exp-bd:#d2e3fc;
+  --chip-bg:#e8f0fe;--chip-c:#1967d2;
+}
+[data-theme="dark"]{
+  --blue:#8ab4f8;--blue-h:#aecbfa;
+  --green:#81c995;--url:#81c995;
+  --text:#e8eaed;--gray:#bdc1c6;--light:#9aa0a6;
+  --bg:#202124;--bg2:#303134;--border:#3c4043;--border2:#5f6368;
+  --kbg:#303134;--shadow:rgba(0,0,0,.4);
+  --tag-bg:#3c4043;--tag-bd:#5f6368;
+  --exp-bg:#1e2d42;--exp-bd:#3c5a8a;
+  --chip-bg:#1e3a5f;--chip-c:#8ab4f8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Google Sans','Roboto',arial,sans-serif;color:var(--text);background:var(--bg);transition:background .2s,color .2s}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+.glogo{font-family:'Google Sans',arial,sans-serif;font-weight:400;letter-spacing:-1px;user-select:none;line-height:1}
+.gl1{color:#4285F4}.gl2{color:#EA4335}.gl3{color:#FBBC05}.gl4{color:#4285F4}.gl5{color:#34A853}.gl6{color:#EA4335}
+
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;position:relative}
+#home .glogo{font-size:84px;margin-bottom:32px}
+.search-wrap{width:100%;max-width:584px;position:relative}
+.search-box{display:flex;align-items:center;border:1px solid var(--border);border-radius:24px;padding:0 16px;height:46px;background:var(--bg);box-shadow:0 1px 6px rgba(32,33,36,.18);transition:box-shadow .15s}
+.search-box:hover,.search-box.focused{box-shadow:0 1px 8px var(--shadow);border-color:transparent}
+.s-icon{width:20px;height:20px;fill:var(--light);flex:none}
+.s-mic{width:20px;height:20px;fill:var(--blue);flex:none;margin-left:8px}
+#typedQuery{flex:1;border:none;outline:none;font-size:16px;padding:0 12px;background:transparent;color:var(--text)}
+.cursor{display:inline-block;width:1.5px;height:18px;background:var(--text);margin-left:1px;vertical-align:middle;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.home-btns{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+.gbtn{background:var(--bg2);border:1px solid var(--bg2);border-radius:4px;color:var(--gray);font-size:14px;padding:0 16px;height:36px;transition:border-color .1s,box-shadow .1s}
+.gbtn:hover{border-color:var(--tag-bd);box-shadow:0 1px 2px var(--shadow)}
+.home-footer{position:absolute;bottom:0;left:0;right:0;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--light);background:var(--bg2);border-top:1px solid var(--border);flex-wrap:wrap;gap:8px}
+
+.ac-box{position:absolute;top:100%;left:0;right:0;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 24px 24px;box-shadow:0 4px 6px var(--shadow);display:none;z-index:50;overflow:hidden;margin-top:-2px}
+.ac-item{display:flex;align-items:center;gap:14px;padding:10px 16px;font-size:14px;color:var(--text);cursor:pointer}
+.ac-item:hover{background:var(--tag-bg)}
+.ac-icon{fill:var(--light);flex:none;width:16px;height:16px}
+.ac-b{font-weight:500}
+
+#results{display:none}
+.topbar{border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100}
+.topbar-inner{display:flex;align-items:center;gap:18px;padding:14px 24px 0;flex-wrap:wrap}
+.topbar .glogo{font-size:28px;cursor:pointer;flex:none}
+.tsw{flex:1;max-width:580px;min-width:180px;position:relative}
+.tsb{display:flex;align-items:center;border:1px solid var(--border);border-radius:24px;padding:0 16px;height:44px;background:var(--bg);box-shadow:0 1px 4px rgba(32,33,36,.1);transition:box-shadow .15s}
+.tsb:hover,.tsb.focused{box-shadow:0 1px 8px var(--shadow)}
+.tsb input{flex:1;border:none;outline:none;font-size:16px;padding:0 10px;background:transparent;color:var(--text)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--light);font-size:18px;cursor:pointer;transition:background .1s}
+.icon-btn:hover{background:var(--tag-bg)}
+.av-btn{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;cursor:pointer;flex:none}
+.tabs-row{display:flex;overflow-x:auto;padding:0 100px 0 136px;scrollbar-width:none}
+.tabs-row::-webkit-scrollbar{display:none}
+.tab{padding:12px 12px 10px;font-size:13px;color:var(--light);border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer;user-select:none}
+.tab:hover{color:var(--blue)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+
+.body-wrap{display:flex;gap:40px;max-width:980px;margin:0 auto;padding:24px 24px 80px}
+.main-col{flex:1;min-width:0;max-width:652px}
+.stats{font-size:13px;color:var(--light);margin-bottom:20px}
+
+.result{margin-bottom:26px;animation:fadeUp .2s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.r-meta{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.r-fav{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;background:var(--tag-bg)}
+.r-url{font-size:13px;color:var(--url);line-height:1.3}
+.result h3{font-size:20px;font-weight:400;margin:0 0 5px;line-height:1.3}
+.result h3 a{color:var(--blue);cursor:pointer}
+.result h3 a:hover{text-decoration:underline}
+
+.r-keyinfo{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+.ki-chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;background:var(--chip-bg);color:var(--chip-c);border-radius:12px;padding:2px 9px;font-weight:500}
+
+.r-snippet{font-size:14px;color:var(--gray);line-height:1.65}
+
+.r-expand-toggle{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:13px;color:var(--blue);cursor:pointer;user-select:none}
+.r-expand-toggle:hover{text-decoration:underline}
+.r-chevron{font-size:11px;transition:transform .2s;display:inline-block}
+.result.expanded .r-chevron{transform:rotate(180deg)}
+
+.r-detail{display:none;margin-top:12px;padding:16px 18px;background:var(--exp-bg);border:1px solid var(--exp-bd);border-radius:8px;animation:fadeUp .15s ease}
+.result.expanded .r-detail{display:block}
+.r-bullets{list-style:none;padding:0;margin:0 0 10px}
+.r-bullets li{font-size:14px;color:var(--gray);line-height:1.7;padding:4px 0 4px 18px;position:relative}
+.r-bullets li::before{content:"·";position:absolute;left:4px;color:var(--blue);font-size:16px;line-height:1.5}
+.r-bullets li b{color:var(--text);font-weight:500}
+.r-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.rtag{font-size:12px;color:var(--gray);background:var(--tag-bg);border:1px solid var(--tag-bd);border-radius:12px;padding:2px 9px}
+
+.sitelinks{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border2)}
+.sitelink h4{font-size:14px;font-weight:400;margin:0 0 2px}
+.sitelink h4 a{color:var(--blue)}
+.sitelink h4 a:hover{text-decoration:underline}
+.sitelink p{font-size:13px;color:var(--gray);margin:0}
+
+.featured{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:24px}
+.feat-label{font-size:11px;font-weight:500;color:var(--light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.feat-text{font-size:14px;color:var(--text);line-height:1.7}
+
+.paa{border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:20px 0}
+.paa-title{font-size:18px;font-weight:400;padding:14px 0 4px}
+.paa-item{border-top:1px solid var(--border)}
+.paa-q{display:flex;justify-content:space-between;align-items:center;padding:13px 4px;font-size:14px;cursor:pointer;color:var(--text)}
+.paa-v{font-size:11px;color:var(--light);transition:transform .2s;flex:none;margin-left:12px}
+.paa-item.open .paa-v{transform:rotate(180deg)}
+.paa-a{max-height:0;overflow:hidden;font-size:13px;color:var(--gray);line-height:1.7;transition:max-height .25s ease,padding .25s;padding:0 4px}
+.paa-item.open .paa-a{max-height:300px;padding:0 4px 12px}
+
+.side-col{width:296px;flex:none}
+.kpanel{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--kbg)}
+.kp-hero{height:110px;background:linear-gradient(135deg,#667eea 0%,#764ba2 55%,#f093fb 100%);position:relative}
+.kp-av{width:68px;height:68px;border-radius:50%;background:#fff;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#764ba2;position:absolute;bottom:-24px;left:16px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.kp-body{padding:34px 16px 16px}
+.kp-name{font-size:21px;font-weight:400;margin-bottom:2px}
+.kp-role{font-size:13px;color:var(--gray);margin-bottom:3px}
+.kp-avail{font-size:12px;color:#137333;font-weight:500;margin-bottom:12px}
+.kpanel hr{border:none;border-top:1px solid var(--border);margin:10px 0}
+.kfact{display:flex;justify-content:space-between;align-items:flex-start;font-size:13px;padding:4px 0;gap:8px}
+.kfl{color:var(--light);flex:none;min-width:64px}
+.kfv{color:var(--text);text-align:right;word-break:break-word}
+.kfv a{color:var(--blue)}
+.klinks{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.klink{font-size:13px;color:var(--blue);border:1px solid var(--border);border-radius:16px;padding:5px 11px;cursor:pointer;transition:background .1s}
+.klink:hover{background:var(--tag-bg)}
+
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:8px}
+.img-card{border-radius:8px;overflow:hidden;cursor:pointer;position:relative;aspect-ratio:1.3;border:1px solid var(--border)}
+.img-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:30px;transition:transform .15s}
+.img-card:hover .img-inner{transform:scale(1.07)}
+.img-lbl{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:12px;padding:8px 8px 6px}
+
+.news-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.news-item:last-child{border-bottom:none}
+.news-img{width:72px;height:72px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--tag-bg)}
+.news-src{font-size:12px;color:var(--light);margin-bottom:4px}
+.news-ttl{font-size:14px;font-weight:500;color:var(--blue);line-height:1.4;margin-bottom:4px;cursor:pointer}
+.news-ttl:hover{text-decoration:underline}
+.news-dt{font-size:12px;color:var(--light)}
+
+#dtoggle{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);color:var(--text);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:200;transition:background .2s}
+#dtoggle:hover{background:var(--tag-bg)}
+
+@media(max-width:760px){
+  #home .glogo{font-size:60px}
+  .topbar-inner{gap:10px;padding:10px 12px 0}
+  .tabs-row{padding:0 12px}
+  .body-wrap{flex-direction:column;padding:16px 12px 60px;gap:16px}
+  .main-col{max-width:100%}
+  .side-col{width:100%}
+  .sitelinks{grid-template-columns:1fr}
+  .img-grid{grid-template-columns:repeat(3,1fr)}
+  .home-footer{font-size:12px}
+}
+@media(max-width:480px){
+  #home .glogo{font-size:48px}
+  .img-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div id="home">
+  <div class="glogo"><span class="gl1">G</span><span class="gl2">o</span><span class="gl3">o</span><span class="gl4">g</span><span class="gl5">l</span><span class="gl6">e</span></div>
+  <div class="search-wrap">
+    <div class="search-box" id="homeBox">
+      <svg class="s-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span id="typedQuery"></span><span class="cursor" id="typeCursor"></span>
+      <svg class="s-mic" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+    </div>
+    <div class="ac-box" id="homeAC">
+      <div class="ac-item" onclick="go('all')"><svg class="ac-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>Maaz Shamim</span></div>
+      <div class="ac-item" onclick="go('experience')"><svg class="ac-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>Maaz Shamim <span class="ac-b">experience Arête S4Lab PTCL</span></span></div>
+      <div class="ac-item" onclick="go('education')"><svg class="ac-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>Maaz Shamim <span class="ac-b">education JHU IBA</span></span></div>
+      <div class="ac-item" onclick="go('projects')"><svg class="ac-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>Maaz Shamim <span class="ac-b">projects ShuntMRI Rust NLP</span></span></div>
+    </div>
+    <div class="home-btns">
+      <button class="gbtn" id="btnSearch">Google Search</button>
+      <button class="gbtn" id="btnLucky">I'm Feeling Lucky</button>
+    </div>
+  </div>
+  <div class="home-footer">
+    <span>Baltimore, MD &nbsp;·&nbsp; Available Jan 2027</span>
+    <span>A portfolio disguised as a search engine</span>
+    <span>Press <kbd style="background:var(--border2);border-radius:3px;padding:1px 5px;font-size:11px">/</kbd> to search</span>
+  </div>
+</div>
+
+<div id="results">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="glogo" id="logoBack"><span class="gl1">G</span><span class="gl2">o</span><span class="gl3">o</span><span class="gl4">g</span><span class="gl5">l</span><span class="gl6">e</span></div>
+      <div class="tsw">
+        <div class="tsb" id="topBox">
+          <svg class="s-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input id="qInput" type="text" autocomplete="off">
+          <svg class="s-mic" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </div>
+      </div>
+      <div class="top-right">
+        <div class="icon-btn" id="settingsBtn">⚙️</div>
+        <div class="av-btn" id="avBtn">MS</div>
+      </div>
+    </div>
+    <div class="tabs-row" id="tabs"></div>
+  </div>
+  <div class="body-wrap">
+    <div class="main-col">
+      <div class="stats" id="stats"></div>
+      <div id="rList"></div>
+      <div class="paa" id="paaBox" style="display:none">
+        <div class="paa-title">People also ask</div>
+        <div id="paaList"></div>
+      </div>
+    </div>
+    <div class="side-col" id="sideCol"></div>
+  </div>
+</div>
+
+<button id="dtoggle" title="Toggle dark mode">🌙</button>
+
+<script>
+const P = {
+  name:"Maaz Shamim", initials:"MS",
+  tagline:"Backend & ML Engineer · Graduate Researcher, JHU S4 Lab",
+  location:"Baltimore, MD",
+  email:"mshamim2@jh.edu", phone:"410-805-2285",
+  linkedin:"linkedin.com/in/maaz-shamim",
+  github:"github.com/Maaz5hamim",
+  website:"maazshamim.com",
+  available:"Full-time · January 2027",
+
+  about:{
+    featured:"Maaz Shamim is a software engineer and ML researcher pursuing an MS in Computer Science at Johns Hopkins University (GPA 3.67, expected December 2026). He holds a BS from IBA Karachi (GPA 3.74). He is Lead Software Engineer at Arête, a university-deployed adaptive assessment platform now serving over 1,000 students, and a graduate researcher at JHU's S4 Lab working on the Smart Intersection Testbed — instrumenting a real signalized intersection in Baltimore with LiDAR and camera sensing for real-time edge AI and connected-infrastructure research. Seeking full-time backend or ML engineering roles from January 2027.",
+    summary:"MS CS at <b>Johns Hopkins</b> (GPA 3.67) · BS CS at <b>IBA Karachi</b> (GPA 3.74) · Lead Software Engineer at <b>Arête</b> serving 1,000+ university students · Graduate Researcher at <b>JHU S4 Lab</b> on smart intersection edge AI · Available full-time January 2027.",
+    highlights:["Microservices & Distributed Systems","Machine Learning & Computer Vision","3D Medical Imaging","Edge AI / TinyML","Real-time WebSocket Systems","Graph Neural Networks","NLP & Computational Social Science"],
+    faqs:[
+      {q:"What does Maaz Shamim do?",a:"Maaz is Lead Software Engineer at Arête, an adaptive assessment platform serving 1,000+ active university students, and a graduate researcher at JHU's S4 Lab working on 3D MRI artifact detection and surgical computer vision. He is available for full-time backend or ML engineering roles from January 2027."},
+      {q:"What is the S4 Lab at JHU?",a:"S4 Lab (Sensing, Systems, and Signals Lab) at Johns Hopkins is where Maaz does his graduate research. He is part of the Smart Intersection Testbed initiative, a collaboration with the City of Baltimore and Traffic Systems and Technology (TS&T) that instruments a real signalized intersection at N Charles St and University Parkway with dual Ouster LiDAR units and camera sensors. The work involves Jetson AGX Orin edge computing, real-time multimodal sensor pipelines, data logging and synchronization, and network connectivity across Ethernet, cellular, and C-V2X, with a path toward a full smart-corridor initiative spanning the JHU Homewood and Medical campuses."},
+      {q:"What are Maaz Shamim's target roles?",a:"Backend Engineer, Systems Engineer, or Machine Learning / Computer Vision Engineer. Open to full-time roles starting January 2027. Reach out at mshamim2@jh.edu or through LinkedIn."},
+      {q:"What technologies does Maaz Shamim use?",a:"Backend: Java, Python, Node.js, C/C++, Rust, SQL. Systems: Microservices, WebSockets, Redis, Docker, Linux. ML: PyTorch, 3D U-Net, TensorFlow Lite, OpenCV, GNNs, CUDA. Data: Gensim, scikit-learn, GDELT BigQuery, Teradata. Databases: PostgreSQL, MongoDB, MySQL, Azure."},
+      {q:"What is Arête?",a:"Arête is an adaptive assessment platform Maaz leads as Lead Software Engineer. It serves over 1,000 active university students with a real-time WebSocket exam runtime keeping latency under 50ms, a microservices backend on Node.js with MongoDB and Redis, and automated analytics pipelines that reduced processing time by 40%. Visit risewitharete.online to learn more."}
+    ]
+  },
+
+  education:[
+    {
+      fav:"🏛️", url:"jhu.edu", bc:"education",
+      school:"Johns Hopkins University",
+      degree:"Master of Science, Computer Science",
+      years:"Aug 2025 — Dec 2026", gpa:"3.67",
+      chips:["GPA 3.67","Expected Dec 2026","Whiting School of Engineering","Baltimore, MD"],
+      snippet:"MS CS at JHU's Whiting School of Engineering with coursework in Computer Vision, NLP, Distributed Systems, Embedded Systems, and AI. Advisor: Jason Eisner. Also a graduate researcher at the S4 Lab.",
+      bullets:[
+        "Studying at the Whiting School of Engineering with a focus on systems, machine learning, and computer vision. Coursework includes Large-scale Database Systems, Artificial Intelligence, Computer Vision, NLP, Embedded Systems and Wireless IoT, and Applied Game Theory.",
+        "Graduate researcher at the S4 Lab, working on 3D MRI pipelines, surgical computer vision, and pose estimation under occlusion. Advised by Jason Eisner in the CS department.",
+        "Completed Graduate Academic Ethics certification."
+      ],
+      tags:["Computer Vision","NLP","Distributed Systems","Embedded Systems","Game Theory","AI"]
+    },
+    {
+      fav:"🎓", url:"iba.edu.pk", bc:"education",
+      school:"Institute of Business Administration (IBA) Karachi",
+      degree:"Bachelor of Science, Computer Science",
+      years:"Fall 2020 — June 2024", gpa:"3.74",
+      chips:["GPA 3.74","90.15% Overall","132 Credits","June 2024"],
+      snippet:"BS CS from IBA Karachi with 90.15% cumulative marks and 132 credits. Top scores included Computer Architecture (99/100), Computer Networks (98/100), and Data Mining (96/100). Project Lead at IBA Community Welfare Society.",
+      bullets:[
+        "Graduated with a 3.74 GPA. Top marks in Computer Architecture and Assembly Language (99/100), Computer Networks (98/100), Data Mining (96/100), Operating Systems (95/100), and Systems Programming (95/100).",
+        "Led the IBA Community Welfare Society project that established a remote school in rural Sindh (Thatta). Set up the digital infrastructure and designed the foundational curriculum, enabling live remote instruction from Karachi.",
+        "Volunteered at the Kiran Foundation from May to July 2025, mentoring over 40 underserved students in Python, algorithmic thinking, and AI fundamentals."
+      ],
+      tags:["Data Structures","OS","Networks","AI","Algorithms","Databases","Cloud Computing"]
+    }
+  ],
+
+  experience:[
+    {
+      fav:"🔬", url:"engineering.jhu.edu", bc:"experience",
+      company:"S4 Lab, Johns Hopkins University",
+      role:"Graduate Researcher",
+      years:"2025 — Present",
+      chips:["2025 – Present","Baltimore, MD","Jetson AGX Orin · Ouster LiDAR","Edge Computing & Transportation AI"],
+      snippet:"Working on the Smart Intersection Testbed, a collaboration between JHU's S4 Lab, the City of Baltimore, and Traffic Systems and Technology (TS&T). Instrumenting a real signalized intersection at N Charles St and University Parkway with dual LiDAR and camera sensing for real-time multimodal perception.",
+      bullets:[
+        "The lab is building Baltimore's first AI-powered smart intersection at N Charles St and University Parkway — a collaboration with the City of Baltimore and TS&T that builds on prior work in LiDAR-based traffic analytics with Prince George's County.",
+        "Setting up and configuring <b>Jetson AGX Orin</b> edge computing units for roadside processing, and integrating <b>Ouster LiDAR</b> and camera sensor pipelines for real-time multimodal perception.",
+        "Building and debugging data logging, storage, and synchronization pipelines that handle concurrent LiDAR point-cloud and video streams across the intersection sensors.",
+        "Working on network connectivity across Ethernet, cellular, and future C-V2X links, and supporting remote access, monitoring, and system administration for the field-deployed hardware.",
+        "Exploring cloud integration with Ouster BlueCity Cloud and GPU-based model training pipelines. The longer-term goal is a full smart-corridor initiative spanning the Homewood campus and JH Medical Campus."
+      ],
+      tags:["Jetson AGX Orin","Ouster LiDAR","Edge Computing","C-V2X","Sensor Fusion","CUDA","Linux","Transportation AI"]
+    },
+    {
+      fav:"🚀", url:"risewitharete.online", bc:"experience",
+      company:"Arête Assessment Platform",
+      role:"Lead Software Engineer",
+      years:"2024 — Present",
+      chips:["2024 – Present","Baltimore / Remote","Node.js · MongoDB · Redis","1,000+ Users"],
+      snippet:"Built Arête from scratch, a university-deployed adaptive assessment platform now serving over 1,000 students. Engineered the real-time WebSocket exam runtime, designed the microservices backend, and cut analytics pipeline runtime by 40%.",
+      bullets:[
+        "Arête started as a problem my professor flagged with existing assessment platforms and shortcomings in how student performance data was captured in real time. I took the idea from paper to production.",
+        "Designed and built the full backend from the ground up using Node.js, Express, MongoDB, and Redis. The platform now serves over <b>1,000 active university students</b> across multiple campuses.",
+        "The exam runtime runs on WebSockets (Socket.io) with Redis pub/sub for state synchronization across concurrent sessions, keeping end-to-end latency consistently <b>under 50ms</b> even during live proctored exams.",
+        "Cron-driven MongoDB aggregation jobs power the analytics pipeline that tracks student performance trends and flags at-risk students. Tuning these reduced processing time by <b>40%</b>.",
+        "Also built automated violation-flagging pipelines and live telemetry microservices that run across all concurrent exam sessions in real time. Visit <a href='https://risewitharete.online' target='_blank' style='color:var(--blue)'>risewitharete.online</a> to learn more."
+      ],
+      tags:["Node.js","Express","MongoDB","Redis","Socket.io","WebSockets","Microservices","Docker"]
+    },
+    {
+      fav:"💻", url:"systemsltd.com", bc:"experience",
+      company:"Systems Limited",
+      role:"Associate Software Engineer",
+      years:"Aug 2024 — Aug 2025",
+      chips:["Aug 2024 – Aug 2025","Karachi, Pakistan","ISO 20022 · SWIFT MT","5 Countries"],
+      snippet:"Built fault-tolerant real-time payment processing infrastructure for banking clients across 5 countries, including an instant transfer engine for a major Qatari bank. Engineered ISO 20022 MX migration pipelines reviewed by central bank auditors.",
+      bullets:[
+        "Worked on payment infrastructure serving institutional banking clients across five countries. The most notable deployment was an instant transfer engine built for a major Qatari bank.",
+        "Led the ISO 20022 MX migration from legacy SWIFT MT messaging specs using Python. This meant building high-throughput field mapping, validation, and compliance reporting tools whose outputs were reviewed directly by <b>central bank auditors</b>.",
+        "Improved API transaction throughput and built automated end-to-end integration tests for core banking message routing interfaces.",
+        "Also built Python data transformation and validation pipelines for real-time cross-border transfer routing across the five territories."
+      ],
+      tags:["Python","Java","ISO 20022","SWIFT MT","PostgreSQL","REST APIs","Banking Infrastructure"]
+    },
+    {
+      fav:"📡", url:"ptcl.com.pk", bc:"experience",
+      company:"Pakistan Telecommunication Company Ltd. (PTCL)",
+      role:"Data and Analytics Intern, Sales Division",
+      years:"May 2023 — Oct 2023",
+      chips:["May – Oct 2023","Karachi, Pakistan","Teradata · Python","Executive Analytics"],
+      snippet:"Automated data ingestion from Teradata enterprise data warehouses using Python, replacing legacy manual ETL with an executive analytics dashboard. Two data-backed operational recommendations were adopted by leadership.",
+      bullets:[
+        "My first exposure to production data systems at national telco scale. Built Python scripts to automate ingestion from Teradata enterprise warehouses and regional SQL databases, replacing manual ETL routines that had been running for years.",
+        "Designed cohort tracking and funnel analysis tools that helped the sales team pinpoint exactly where conversion was dropping off.",
+        "Two operational adjustments I recommended based on the data were adopted by executive leadership by the end of the internship."
+      ],
+      tags:["Python","Teradata","SQL","ETL","Data Analytics","Funnel Analysis"]
+    }
+  ],
+
+  projects:[
+    {
+      fav:"🧠", url:"github.com/Maaz5hamim", bc:"projects",
+      name:"ShuntMRI Analyzer — 3D MRI Artifact and Catheter Segmentation",
+      year:"2026",
+      chips:["2026","JHU Research","PyTorch · 3D U-Net","0.92 Dice Score · 96% Accuracy"],
+      snippet:"3D U-Net pipeline trained on 120 MRI volumes for shunt valve artifact detection and catheter trajectory estimation. Achieved 0.92 Dice score on artifacts and 96% catheter length accuracy. Part of ongoing S4 Lab research.",
+      bullets:[
+        "The problem: MRI scans of patients with ventricular shunts have metallic artifacts that make it hard to locate the catheter tip accurately. I built a 3D U-Net pipeline trained on 120 volumes to detect these artifacts and estimate catheter trajectories in 3D.",
+        "Hit a <b>0.92 Dice score</b> for artifact segmentation and <b>96% catheter length accuracy</b> by combining a custom Dice + weighted BCE loss (pos_weight 50) with learnable ConvTranspose3D upsampling, which gave much sharper boundary predictions than bilinear interpolation.",
+        "GPU memory was the main constraint. Solved it by using catheter-centered patch sampling during training and sliding-window inference to reconstruct full 3D volumes at test time without loading everything into VRAM at once."
+      ],
+      tags:["PyTorch","3D U-Net","3D Convolutions","Medical Imaging","Python","CUDA","GPU Optimization"]
+    },
+    {
+      fav:"🔬", url:"github.com/Maaz5hamim", bc:"projects",
+      name:"Surgical Phase Recognition Pipeline",
+      year:"2026",
+      chips:["2026","JHU S4 Lab","PyTorch · OpenCV · VLM","PELT Change-Point Detection"],
+      snippet:"Automated CV pipeline that segments hours of unannotated surgical video into labeled phase intervals using PELT change-point detection, then extracts structured multimodal datasets for VLM fine-tuning. Built to eliminate manual annotation.",
+      bullets:[
+        "The goal was to take raw surgical footage with no annotations and turn it into structured training data for a VLM, without any human labeling. That meant building a full pipeline from scratch.",
+        "Used PyTorch and OpenCV to track surgical tool presence across frames, then applied <b>PELT change-point detection</b> on those timelines to find the boundaries between surgical phases. The segmented intervals became the training labels.",
+        "From those segments, I extracted multimodal datasets (video clips, frame sequences, metadata) that were then used to fine-tune a <b>Vision-Language Model</b> for surgical phase classification."
+      ],
+      tags:["PyTorch","OpenCV","VLM Fine-tuning","PELT","Computer Vision","Python","JHU Research"]
+    },
+    {
+      fav:"📰", url:"github.com/Maaz5hamim", bc:"projects",
+      name:"Media Framing Analysis Pipeline — NLP and Computational Journalism",
+      year:"2025",
+      chips:["2025","NLP · LDA · LLM","GDELT · GPT-4o-mini","PPI Validated"],
+      snippet:"A four-phase computational pipeline measuring how different news outlets frame the same political topics across immigration, economy, and elections. Annotated 1,500+ articles with GPT-4o-mini and validated LLM labels using Prediction-Powered Inference.",
+      bullets:[
+        "The question I was trying to answer: given the same event, do different outlets really report it through different ideological lenses, and can we measure that at scale? The pipeline runs four phases to find out.",
+        "<b>Phase 1 (LDA):</b> discovers sub-topics automatically from the corpus and measures which outlets over or under-represent each one using Jensen-Shannon divergence. An LLM reads the top keywords and writes human-readable topic labels.",
+        "<b>Phase 2 (MFC Frame Scoring):</b> scores each article against all 15 Media Frames Corpus frames (Economic, Security, Fairness, etc.) and identifies the dominant frame each outlet applies per topic.",
+        "<b>Phase 3 (Subframe Divergence):</b> for outlet pairs sharing the same topic and frame, Roy-style n-gram extraction finds the specific phrases that make one outlet's language distinct. An LLM then assigns ideological stances like <em>restrictionist</em> or <em>humanitarian</em>.",
+        "<b>Phase 4 (Synthesis):</b> merges all three layers into a single divergence ranking, showing which outlet pairs differ most and where the gap is widest.",
+        "For immigration specifically, I ran a separate annotation workflow on 1,576 articles using a 22-subframe codebook from Roy and Golwasser (2020). GPT-4o-mini labeled all articles; I used <b>Prediction-Powered Inference (PPI)</b> to produce unbiased outlet-level estimates with valid 95% confidence intervals even where the LLM was systematically biased. Full methodology in the paper.",
+        "Data sourced from <b>GDELT BigQuery</b> across 8 outlets (NYT, Guardian, AP, Reuters, BBC, Daily Mail, NY Post, Fox News) spanning Immigration, Economy, and Elections."
+      ],
+      tags:["Python","Gensim","LDA","scikit-learn","OpenAI API","GDELT","BigQuery","PPI","Pandas","Seaborn"]
+    },
+    {
+      fav:"🤖", url:"github.com/Maaz5hamim", bc:"projects",
+      name:"TinyML Edge AI — Gesture Translation Engine",
+      year:"2024",
+      chips:["2024","Edge / Embedded","C++ · PyTorch · TFLite","15KB · Sub-100ms"],
+      snippet:"End-to-end embedded ML pipeline: curated 5,000+ IMU samples, trained a compact CNN, applied INT8 quantization, and deployed to microcontrollers with 92% accuracy, a 15KB footprint, and under 100ms inference. No cloud needed.",
+      bullets:[
+        "I wanted to push ML to the absolute edge of what a microcontroller can run without any cloud connection. This project covers the whole stack from sensor to deployed model.",
+        "Curated over 5,000 IMU sensor samples, trained a compact CNN in PyTorch, and applied INT8 quantization with quantize-aware training to minimize accuracy loss during compression.",
+        "The final model runs directly on microcontrollers, hitting <b>92% accuracy</b> within a <b>15KB memory footprint</b> and inferencing in <b>under 100ms</b>."
+      ],
+      tags:["C++","PyTorch","TensorFlow Lite","INT8 Quantization","Edge AI","Embedded Systems","IMU"]
+    },
+    {
+      fav:"🦀", url:"github.com/Maaz5hamim", bc:"projects",
+      name:"ShareSphere — Peer-to-Peer File Sharing in Rust",
+      year:"2024",
+      chips:["2024","Rust · Tokio · egui","MySQL · bincode","Native Desktop App"],
+      snippet:"Full-stack peer-to-peer file sharing desktop application built entirely in Rust. A native egui GUI client talks to a concurrent Tokio async server over a custom binary TCP protocol with MySQL persistence. No cloud, no Electron.",
+      bullets:[
+        "The idea was to build a Dropbox-style file sharing tool for small teams and offices that want to own their infrastructure without paying for cloud storage or dealing with third-party dependencies.",
+        "The client is a native desktop GUI built with egui (no Electron, no HTML, pure Rust immediate-mode rendering). It connects to the server over raw TCP with binary serialization via bincode for maximum efficiency.",
+        "The server uses Tokio's async runtime, spawning each client connection as an independent task. File transfers use a two-phase handshake: the server signals readiness with an Initiate response, then streams raw bytes over the same connection in 10KB chunks.",
+        "The MySQL schema is three tables (user, file, shared_with) backed by compile-time checked sqlx queries. Users can upload files, share them with colleagues by email, browse a 'Shared With Me' view organized into per-user folders, and download or delete files from anywhere on the network.",
+        "Also has light/dark theme support, native OS file picker dialogs via rfd, and a branded splash screen."
+      ],
+      tags:["Rust","Tokio","egui","eframe","bincode","sqlx","MySQL","TCP","Async","Native GUI"]
+    },
+    {
+      fav:"🕸️", url:"github.com/Maaz5hamim", bc:"projects",
+      name:"3D Keypoint Pose Estimation Under Occlusion",
+      year:"2024",
+      chips:["2024","PyTorch · GNNs","Multi-head Self-Attention","Occlusion Robust"],
+      snippet:"Graph Neural Network with multi-head self-attention over joint-connectivity topology graphs to infer occluded 3D joint positions. Achieves stable tracking under severe inter-joint occlusions and high-velocity motion.",
+      bullets:[
+        "Standard pose estimators break down badly when joints are occluded. My approach treats the human skeleton as a graph and reasons over the structural relationships between joints to recover missing positions.",
+        "Designed a GNN with multi-head self-attention that operates on joint-connectivity topology graphs. Visible spatial nodes provide the signal; the graph structure tells the model which joints are likely to constrain an occluded one.",
+        "Achieves stable spatio-temporal tracking under severe inter-joint occlusions and high-velocity motion where conventional estimators fail."
+      ],
+      tags:["PyTorch","Graph Neural Networks","Multi-head Self-Attention","3D Pose Estimation","Python","Computer Vision"]
+    }
+  ],
+
+  skills:[
+    {label:"Python",color:"#3776AB",e:"🐍"},{label:"Java",color:"#f89820",e:"☕"},
+    {label:"C/C++",color:"#00599C",e:"⚡"},{label:"Rust",color:"#CE422B",e:"🦀"},
+    {label:"JavaScript",color:"#F7DF1E",e:"🟨"},{label:"SQL / Bash",color:"#4479A1",e:"🗄️"},
+    {label:"PyTorch",color:"#EE4C2C",e:"🔥"},{label:"3D U-Net",color:"#6D28D9",e:"🧠"},
+    {label:"TensorFlow Lite",color:"#FF6F00",e:"📱"},{label:"OpenCV",color:"#5C3317",e:"👁️"},
+    {label:"GNNs",color:"#0EA5E9",e:"🕸️"},{label:"CUDA",color:"#76B900",e:"🖥️"},
+    {label:"Node.js",color:"#339933",e:"🟢"},{label:"Redis",color:"#DC382D",e:"⚡"},
+    {label:"WebSockets",color:"#4B5563",e:"🔌"},{label:"Microservices",color:"#7C3AED",e:"⚙️"},
+    {label:"PostgreSQL",color:"#336791",e:"🐘"},{label:"MongoDB",color:"#47A248",e:"🍃"},
+    {label:"Docker",color:"#2496ED",e:"🐳"},{label:"Azure / Cloud",color:"#0078D4",e:"☁️"}
+  ],
+
+  news:[
+    {e:"🧠",src:"JHU Department of Computer Science",ttl:"ShuntMRI: 3D U-Net pipeline achieves 0.92 Dice score on MRI shunt artifact detection and 96% catheter accuracy",dt:"2026"},
+    {e:"🔬",src:"JHU S4 Lab Research Spotlight",ttl:"Surgical phase segmentation without annotations: PELT change-point detection enables clean VLM fine-tuning datasets from raw OR footage",dt:"2026"},
+    {e:"📰",src:"Computational Journalism Lab",ttl:"Media Framing Analysis Pipeline: measuring news outlet ideological divergence across 1,500+ articles with Prediction-Powered Inference validation",dt:"2025"},
+    {e:"🚀",src:"EdTech Pakistan",ttl:"Arête crosses 1,000 active university users — WebSocket exam runtime delivers sub-50ms proctoring latency at scale",dt:"2025"},
+    {e:"🦀",src:"Rustaceans Weekly",ttl:"ShareSphere: a peer-to-peer file sharing desktop app in Rust with egui, Tokio, and a custom binary TCP protocol — no cloud required",dt:"2024"}
+  ]
+};
+
+const SECS=["all","about","education","experience","projects","images","news","contact"];
+const LABS={all:"All",about:"About",education:"Education",experience:"Experience",projects:"Projects",images:"Images",news:"News",contact:"Contact"};
+const $=s=>document.querySelector(s);
+
+function fmt(n){return`About ${new Intl.NumberFormat().format(n)} results (${(Math.random()*.3+.18).toFixed(2)} seconds)`}
+
+function renderTabs(active){
+  const row=$('#tabs'); row.innerHTML='';
+  SECS.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='tab'+(s===active?' active':'');
+    d.textContent=LABS[s]; d.onclick=()=>go(s);
+    row.append(d);
+  });
+}
+
+function renderPanel(section){
+  const side=$('#sideCol');
+  if(section==='images'||section==='news'){side.innerHTML='';return;}
+  side.innerHTML=`
+    <div class="kpanel">
+      <div class="kp-hero"></div>
+      <div class="kp-body">
+        <div class="kp-name">${P.name}</div>
+        <div class="kp-role">${P.tagline}</div>
+        <div class="kp-avail">● Available ${P.available}</div>
+        <hr>
+        <div class="kfact"><span class="kfl">Target</span><span class="kfv" style="font-size:12px">Backend / ML / Systems Engineer</span></div>
+        <div class="kfact"><span class="kfl">IBA GPA</span><span class="kfv">3.74 — 90.15%</span></div>
+        <div class="kfact"><span class="kfl">JHU GPA</span><span class="kfv">3.67 / 4.0</span></div>
+        <div class="kfact"><span class="kfl">Location</span><span class="kfv">${P.location}</span></div>
+        <div class="kfact"><span class="kfl">Email</span><span class="kfv"><a href="mailto:${P.email}">${P.email}</a></span></div>
+        <div class="kfact"><span class="kfl">LinkedIn</span><span class="kfv"><a href="https://${P.linkedin}" target="_blank">maaz-shamim</a></span></div>
+        <div class="kfact"><span class="kfl">GitHub</span><span class="kfv"><a href="https://${P.github}" target="_blank">Maaz5hamim</a></span></div>
+        <hr>
+        <div class="klinks">
+          ${SECS.filter(s=>!['all','images','news'].includes(s)).map(s=>`<span class="klink" onclick="go('${s}')">${LABS[s]}</span>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+let cardId=0;
+function makeCard({fav,url,bc,title,chips,snippet,bullets,tags,sitelinks,href,delay}){
+  const id='c'+(++cardId);
+  const d=document.createElement('div');
+  d.className='result'; d.id=id;
+  d.style.animationDelay=(delay||0)*55+'ms';
+
+  const chipsHtml=chips?chips.map(c=>`<span class="ki-chip">${c}</span>`).join(''):'';
+  const tagsHtml=tags?`<div class="r-tags">${tags.map(t=>`<span class="rtag">${t}</span>`).join('')}</div>`:'';
+  const bulletsHtml=bullets?`<ul class="r-bullets">${bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`:'';
+  const slHtml=sitelinks?`<div class="sitelinks">${sitelinks.map(sl=>`<div class="sitelink"><h4><a href="#" data-goto="${sl.goto}">${sl.title}</a></h4><p>${sl.desc}</p></div>`).join('')}</div>`:'';
+  const showToggle=bullets||tags;
+
+  d.innerHTML=`
+    <div class="r-meta">
+      <div class="r-fav">${fav||'🌐'}</div>
+      <div class="r-url">${url||''}${bc?' › '+bc:''}</div>
+    </div>
+    <h3><a href="${href||'#'}" ${href&&href!='#'?'target="_blank" rel="noopener"':'onclick="toggleCard(\''+id+'\');return false"'}>${title}</a></h3>
+    ${chipsHtml?`<div class="r-keyinfo">${chipsHtml}</div>`:''}
+    <div class="r-snippet">${snippet}</div>
+    ${slHtml}
+    ${showToggle?`
+    <div class="r-expand-toggle" onclick="toggleCard('${id}')">
+      <span>More details</span><span class="r-chevron">▾</span>
+    </div>
+    <div class="r-detail">
+      ${bulletsHtml}
+      ${tagsHtml}
+    </div>`:''}
+  `;
+  d.querySelectorAll('[data-goto]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(a.dataset.goto);}));
+  return d;
+}
+
+function toggleCard(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.classList.toggle('expanded');
+  const toggle=el.querySelector('.r-expand-toggle span:first-child');
+  if(toggle) toggle.textContent=el.classList.contains('expanded')?'Less details':'More details';
+}
+
+function renderList(section){
+  const list=$('#rList'),paaBox=$('#paaBox'),paaList=$('#paaList');
+  list.innerHTML=''; paaBox.style.display='none'; paaList.innerHTML='';
+  list.style.opacity=0; requestAnimationFrame(()=>{list.style.transition='opacity .15s';list.style.opacity=1;});
+
+  if(section==='all'){
+    $('#stats').textContent=fmt(217000);
+    list.append(makeCard({fav:'👤',url:P.website,bc:'about',
+      title:`${P.name} — ${P.tagline}`,
+      chips:['Available Jan 2027','Baltimore, MD','JHU GPA 3.67','IBA GPA 3.74'],
+      snippet:P.about.summary,delay:0,
+      sitelinks:[
+        {goto:'experience',title:'Experience',desc:'Arête · S4 Lab · Systems Limited · PTCL'},
+        {goto:'education',title:'Education',desc:'JHU MS CS · IBA BS CS'},
+        {goto:'projects',title:'Projects',desc:'ShuntMRI · NLP Pipeline · ShareSphere · TinyML'},
+        {goto:'contact',title:'Contact',desc:'mshamim2@jh.edu · 410-805-2285'}
+      ]
+    }));
+    list.append(makeCard({fav:'🚀',url:'risewitharete.online',bc:'experience',
+      title:'Lead Software Engineer · Arête Assessment Platform',
+      chips:['2024 – Present','Node.js · Redis · MongoDB','1,000+ Users','Sub-50ms Latency'],
+      snippet:'Built Arête from the ground up. A high-concurrency microservices backend serving 1,000+ active university students with a real-time WebSocket exam runtime under 50ms and a 40% improvement in analytics pipeline performance.',
+      bullets:P.experience[1].bullets,tags:P.experience[1].tags,
+      href:'https://risewitharete.online',delay:1
+    }));
+    list.append(makeCard({fav:'🔬',url:'engineering.jhu.edu',bc:'experience',
+      title:'Graduate Researcher · S4 Lab, Johns Hopkins University',
+      chips:['2025 – Present','JHU S4 Lab','Jetson AGX Orin · Ouster LiDAR','Smart Intersection · Baltimore'],
+      snippet:'Working on the Smart Intersection Testbed at JHU\'s S4 Lab — instrumenting a real signalized intersection in Baltimore with dual LiDAR and camera sensing for real-time edge-based perception, in collaboration with the City of Baltimore and TS&T.',
+      bullets:P.experience[0].bullets,tags:P.experience[0].tags,delay:2
+    }));
+    list.append(makeCard({fav:'📇',url:P.website,bc:'contact',
+      title:`Contact ${P.name}`,
+      chips:['Open to opportunities','Jan 2027'],
+      snippet:`<b>${P.email}</b> · ${P.phone} · ${P.linkedin}`,delay:3
+    }));
+  }
+
+  else if(section==='about'){
+    $('#stats').textContent=fmt(91000);
+    const feat=document.createElement('div'); feat.className='featured';
+    feat.innerHTML=`<div class="feat-label">About</div><div class="feat-text">${P.about.featured}</div>`;
+    list.append(feat);
+    list.append(makeCard({fav:'👤',url:P.website,bc:'about',title:`About ${P.name}`,
+      chips:['MS CS · JHU','BS CS · IBA','GPA 3.74 / 3.67','Available Jan 2027'],
+      snippet:P.about.summary,
+      bullets:P.about.highlights.map(h=>'<b>'+h+'</b>'),delay:0}));
+    paaBox.style.display='block';
+    P.about.faqs.forEach(f=>{
+      const item=document.createElement('div'); item.className='paa-item';
+      item.innerHTML=`<div class="paa-q"><span>${f.q}</span><span class="paa-v">▾</span></div><div class="paa-a">${f.a}</div>`;
+      item.querySelector('.paa-q').addEventListener('click',()=>item.classList.toggle('open'));
+      paaList.append(item);
+    });
+  }
+
+  else if(section==='education'){
+    $('#stats').textContent=fmt(2);
+    P.education.forEach((ed,i)=>list.append(makeCard({
+      fav:ed.fav,url:ed.url,bc:ed.bc,
+      title:`${ed.school} — ${ed.degree}`,
+      chips:ed.chips,snippet:ed.snippet,bullets:ed.bullets,tags:ed.tags,delay:i
+    })));
+  }
+
+  else if(section==='experience'){
+    $('#stats').textContent=fmt(4);
+    P.experience.forEach((job,i)=>list.append(makeCard({
+      fav:job.fav,url:job.url,bc:job.bc,
+      title:`${job.role} · ${job.company}`,
+      chips:job.chips,snippet:job.snippet,bullets:job.bullets,tags:job.tags,
+      href:job.url==='risewitharete.online'?'https://risewitharete.online':undefined,
+      delay:i
+    })));
+  }
+
+  else if(section==='projects'){
+    $('#stats').textContent=fmt(P.projects.length);
+    P.projects.forEach((p,i)=>list.append(makeCard({
+      fav:p.fav,url:p.url,bc:p.bc,
+      title:p.name,chips:p.chips,snippet:p.snippet,bullets:p.bullets,tags:p.tags,delay:i
+    })));
+  }
+
+  else if(section==='images'){
+    $('#stats').textContent=fmt(P.skills.length);
+    const grid=document.createElement('div'); grid.className='img-grid';
+    P.skills.forEach((sk,i)=>{
+      const c=document.createElement('div'); c.className='img-card result';
+      c.style.animationDelay=(i*25)+'ms';
+      c.innerHTML=`<div class="img-inner" style="background:linear-gradient(135deg,${sk.color}22,${sk.color}55)">${sk.e}</div><div class="img-lbl">${sk.label}</div>`;
+      grid.append(c);
+    });
+    list.append(grid);
+  }
+
+  else if(section==='news'){
+    $('#stats').textContent=fmt(5);
+    const wrap=document.createElement('div');
+    P.news.forEach((n,i)=>{
+      const item=document.createElement('div'); item.className='news-item result';
+      item.style.animationDelay=(i*50)+'ms';
+      item.innerHTML=`<div class="news-img">${n.e}</div><div><div class="news-src">${n.src}</div><div class="news-ttl">${n.ttl}</div><div class="news-dt">${n.dt}</div></div>`;
+      wrap.append(item);
+    });
+    list.append(wrap);
+  }
+
+  else if(section==='contact'){
+    $('#stats').textContent=fmt(1);
+    list.append(makeCard({fav:'📇',url:P.website,bc:'contact',
+      title:`Contact ${P.name}`,
+      chips:['Open to roles · Jan 2027','Baltimore, MD'],
+      snippet:`Email: <b>${P.email}</b> · Phone: ${P.phone}`,
+      bullets:[
+        `Email: <a href="mailto:${P.email}" style="color:var(--blue)">${P.email}</a>`,
+        `Phone: ${P.phone}`,
+        `LinkedIn: <a href="https://${P.linkedin}" target="_blank" style="color:var(--blue)">${P.linkedin}</a>`,
+        `GitHub: <a href="https://${P.github}" target="_blank" style="color:var(--blue)">${P.github}</a>`,
+        `Target roles: Backend Engineer, ML Engineer, or Systems Engineer`,
+        `Full-time availability: January 2027`
+      ],
+      tags:['Open to Relocation','Remote OK','Full-time'],delay:0
+    }));
+  }
+}
+
+function go(section,replace){
+  document.title=section==='all'?`${P.name} - Google Search`:`${P.name} ${section} - Google Search`;
+  $('#home').style.display='none';
+  $('#results').style.display='block';
+  const q=section==='all'?P.name:`${P.name} ${section}`;
+  $('#qInput').value=q;
+  renderTabs(section); renderPanel(section); renderList(section);
+  const state={section};
+  replace?history.replaceState(state,'',`?q=${encodeURIComponent(q)}`):history.pushState(state,'',`?q=${encodeURIComponent(q)}`);
+  window.scrollTo(0,0);
+}
+
+function goHome(){
+  history.pushState({home:true},'','/');
+  $('#results').style.display='none';
+  $('#home').style.display='flex';
+  document.title='Google';
+  $('#typeCursor').style.display='inline-block';
+  runTyping();
+}
+
+let typTimer=null;
+function runTyping(){
+  const el=$('#typedQuery'); el.textContent=''; let i=0;
+  if(typTimer)clearInterval(typTimer);
+  typTimer=setInterval(()=>{
+    el.textContent+=P.name.charAt(i); i++;
+    if(i>=P.name.length){
+      clearInterval(typTimer);
+      setTimeout(()=>{$('#typeCursor').style.display='none';go('all',true);},700);
+    }
+  },95);
+}
+
+const dtog=$('#dtoggle');
+function setTheme(dark){
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  dtog.textContent=dark?'☀️':'🌙';
+  localStorage.setItem('theme',dark?'dark':'light');
+}
+const saved=localStorage.getItem('theme');
+setTheme(saved?saved==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches);
+dtog.addEventListener('click',()=>setTheme(document.documentElement.getAttribute('data-theme')==='light'));
+
+$('#logoBack').addEventListener('click',goHome);
+$('#btnSearch').addEventListener('click',()=>go('all'));
+$('#btnLucky').addEventListener('click',()=>go('experience'));
+$('#avBtn').addEventListener('click',()=>go('contact'));
+$('#settingsBtn').addEventListener('click',()=>setTheme(document.documentElement.getAttribute('data-theme')==='light'));
+
+$('#qInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const v=e.target.value.toLowerCase();
+    const found=SECS.find(s=>s!=='all'&&v.includes(s));
+    go(found||'all');
+  }
+});
+$('#qInput').addEventListener('focus',()=>$('#topBox').classList.add('focused'));
+$('#qInput').addEventListener('blur',()=>$('#topBox').classList.remove('focused'));
+
+const ac=$('#homeAC');
+$('#homeBox').addEventListener('mouseenter',()=>ac.style.display='block');
+$('#homeBox').addEventListener('mouseleave',()=>setTimeout(()=>ac.style.display='none',250));
+ac.addEventListener('mouseenter',()=>ac.style.display='block');
+ac.addEventListener('mouseleave',()=>ac.style.display='none');
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){
+    e.preventDefault();
+    if($('#results').style.display!=='none')$('#qInput').focus();
+  }
+});
+
+window.addEventListener('popstate',e=>{
+  if(e.state?.home){$('#results').style.display='none';$('#home').style.display='flex';}
+  else if(e.state?.section){$('#home').style.display='none';$('#results').style.display='block';renderTabs(e.state.section);renderPanel(e.state.section);renderList(e.state.section);}
+});
+
+runTyping();
+</script>
+</body>
+</html>
