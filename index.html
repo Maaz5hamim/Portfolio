@@ -79,6 +79,26 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .stats{font-size:13px;color:var(--light);margin-bottom:20px}
 
 .result{margin-bottom:26px;animation:fadeUp .2s ease both}
+.demo{border:1px solid var(--exp-bd);background:var(--exp-bg);border-radius:12px;padding:18px 20px}
+.demo-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--green);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.demo-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.demo-ttl{color:var(--text)!important}
+.demo-txt{font-size:14px;color:var(--gray);line-height:1.65;margin-bottom:14px}
+.demo-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-bottom:10px}
+.demo-call{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:var(--bg);font-size:15px;font-weight:500;padding:10px 20px;border-radius:24px;text-decoration:none}
+.demo-call:hover{background:var(--blue-h)}
+.demo-link{font-size:14px;color:var(--blue);text-decoration:none}
+.demo-link:hover{text-decoration:underline}
+.demo-note{font-size:12px;color:var(--light);margin-bottom:12px}
+.demo-chips{margin-bottom:0}
+.grp{margin-bottom:22px}
+.grp-h{display:flex;align-items:center;gap:8px;list-style:none;cursor:pointer;user-select:none;font-size:14px;font-weight:500;color:var(--light);text-transform:uppercase;letter-spacing:.6px;padding:6px 0;margin-bottom:14px;border-bottom:1px solid var(--border2)}
+.grp-h::-webkit-details-marker{display:none}
+.grp-h:hover{color:var(--text)}
+.grp-n{font-size:12px;letter-spacing:0;background:var(--tag-bg);border-radius:10px;padding:1px 8px}
+.grp-chev{margin-left:auto;transition:transform .15s}
+.grp:not([open]) .grp-chev{transform:rotate(-90deg)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .r-meta{display:flex;align-items:center;gap:7px;margin-bottom:3px}
 .r-fav{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;background:var(--tag-bg)}
@@ -356,9 +376,14 @@ const P = {
     }
   ],
 
+  demoPhone:"+17207358286",
+  demoPhoneLabel:"+1 (720) 735-8286",
+
   projects:[
     {
-      fav:"🧠", url:"github.com/Maaz5hamim", bc:"projects",
+      fav:"🧠", url:"github.com/Maaz5hamim/ShuntMRI-Analyzer", bc:"projects",
+      href:"https://github.com/Maaz5hamim/ShuntMRI-Analyzer",
+      area:"Machine Learning & Computer Vision",
       name:"ShuntMRI Analyzer — 3D MRI Artifact and Catheter Segmentation",
       year:"2026",
       chips:["2026","JHU Research","PyTorch · 3D U-Net","0.92 Dice Score · 96% Accuracy"],
@@ -371,20 +396,9 @@ const P = {
       tags:["PyTorch","3D U-Net","3D Convolutions","Medical Imaging","Python","CUDA","GPU Optimization"]
     },
     {
-      fav:"🔬", url:"github.com/Maaz5hamim", bc:"projects",
-      name:"Surgical Phase Recognition Pipeline",
-      year:"2026",
-      chips:["2026","JHU S4 Lab","PyTorch · OpenCV · VLM","PELT Change-Point Detection"],
-      snippet:"Automated CV pipeline that segments hours of unannotated surgical video into labeled phase intervals using PELT changepoint detection, then extracts structured multimodal datasets for VLM fine-tuning. Built to eliminate manual annotation.",
-      bullets:[
-        "The goal was to take raw surgical footage with no annotations and turn it into structured training data for a VLM, without any human labeling. That meant building a full pipeline from scratch.",
-        "Used PyTorch and OpenCV to track surgical tool presence across frames, then applied <b>PELT changepoint detection</b> on those timelines to find the boundaries between surgical phases. The segmented intervals became the training labels.",
-        "From those segments, I extracted multimodal datasets (video clips, frame sequences, metadata) that were then used to fine-tune a <b>Vision-Language Model</b> for surgical phase classification."
-      ],
-      tags:["PyTorch","OpenCV","VLM Fine-tuning","PELT","Computer Vision","Python","JHU Research"]
-    },
-    {
-      fav:"📰", url:"github.com/Maaz5hamim", bc:"projects",
+      fav:"📰", url:"github.com/Maaz5hamim/media-framing-style-transfer", bc:"projects",
+      href:"https://github.com/Maaz5hamim/media-framing-style-transfer",
+      area:"AI Agents & NLP",
       name:"Media Framing Analysis Pipeline — NLP and Computational Journalism",
       year:"2025",
       chips:["2025","NLP · LDA · LLM","GDELT · GPT-4o-mini","PPI Validated"],
@@ -401,7 +415,9 @@ const P = {
       tags:["Python","Gensim","LDA","scikit-learn","OpenAI API","GDELT","BigQuery","PPI","Pandas","Seaborn"]
     },
     {
-      fav:"🤖", url:"github.com/Maaz5hamim", bc:"projects",
+      fav:"🤖", url:"github.com/Maaz5hamim/EdgeAI-Gesture-Translation-System", bc:"projects",
+      href:"https://github.com/Maaz5hamim/EdgeAI-Gesture-Translation-System",
+      area:"Machine Learning & Computer Vision",
       name:"TinyML Edge AI — Gesture Translation Engine",
       year:"2024",
       chips:["2024","Edge / Embedded","C++ · PyTorch · TFLite","15KB · Sub-100ms"],
@@ -414,7 +430,9 @@ const P = {
       tags:["C++","PyTorch","TensorFlow Lite","INT8 Quantization","Edge AI","Embedded Systems","IMU"]
     },
     {
-      fav:"🦀", url:"github.com/Maaz5hamim", bc:"projects",
+      fav:"🦀", url:"github.com/Maaz5hamim/ShareSphere", bc:"projects",
+      href:"https://github.com/Maaz5hamim/ShareSphere",
+      area:"Systems & Apps",
       name:"ShareSphere — Peer-to-Peer File Sharing in Rust",
       year:"2024",
       chips:["2024","Rust · Tokio · egui","MySQL · bincode","Native Desktop App"],
@@ -430,6 +448,7 @@ const P = {
     },
     {
       fav:"🕸️", url:"github.com/Maaz5hamim", bc:"projects",
+      area:"Machine Learning & Computer Vision",
       name:"3D Keypoint Pose Estimation Under Occlusion",
       year:"2024",
       chips:["2024","PyTorch · GNNs","Multi-head Self-Attention","Occlusion Robust"],
@@ -440,6 +459,56 @@ const P = {
         "Achieves stable spatiotemporal tracking under severe between joints occlusions and high velocity motion where conventional estimators fail."
       ],
       tags:["PyTorch","Graph Neural Networks","Multi-head Self-Attention","3D Pose Estimation","Python","Computer Vision"]
+    },
+    {
+      fav:"📞", url:"github.com/Maaz5hamim/Patient-Registration-Agent", bc:"projects",
+      href:"https://github.com/Maaz5hamim/Patient-Registration-Agent",
+      area:"AI Agents & NLP",
+      name:"Patient Registration Agent — Real-Time Voice AI for Phone Intake",
+      year:"2026",
+      chips:["📞 Live: +1 (720) 735-8286","2026","Voice AI · Pipecat","Deepgram · OpenAI · Telnyx"],
+      snippet:"Production-grade voice agent that registers patients over the phone. Callers talk to Emma, an intake specialist who collects details, saves them to MongoDB, and verifies identity with an SMS one-time passcode, entirely through spoken conversation with no keypad menus.",
+      bullets:[
+        "Telnyx streams the call over a bidirectional RTP WebSocket into a <b>Pipecat</b> pipeline: Deepgram Nova-2 speech-to-text, an OpenAI LLM playing Emma, and Deepgram Aura-2 text-to-speech, with Silero VAD for turn detection.",
+        "Python owns all state and API calls; the LLM owns only the conversation. Tools like <code>verify_dob</code>, <code>submit_registration</code> and <code>verify_otp</code> return small structured results, so the model never sees raw patient records.",
+        "Split into two Docker services: a stateless agent that scales horizontally and a FastAPI + MongoDB backend behind an API key, so storage can be swapped without touching the voice pipeline.",
+        "Latency work: the caller's record is pre-fetched in an async task when the webhook fires, so it is ready before the audio stream connects, and audio stays LINEAR16 PCM end to end to avoid a µ-law double-encoding bug from an earlier version.",
+        "Bilingual: Emma asks for a language preference and switches entirely to Spanish on request, using the same pipeline, tools, and voice."
+      ],
+      tags:["Python","Pipecat","FastAPI","Deepgram","OpenAI","Telnyx","WebSockets","MongoDB","Docker","Voice AI"]
+    },
+    {
+      fav:"📲", url:"github.com/Maaz5hamim/MarkMate", bc:"projects",
+      href:"https://github.com/Maaz5hamim/MarkMate",
+      area:"Systems & Apps",
+      name:"MarkMate — Offline Classroom Attendance for iOS",
+      year:"2026",
+      chips:["2026","Swift · UIKit","Multipeer Connectivity","Core Data · No Internet"],
+      snippet:"iOS attendance app for university classrooms. Teachers start a session and students mark themselves present over local Wi-Fi or Bluetooth using Apple's Multipeer Connectivity, with no internet required. Records persist in Core Data.",
+      bullets:[
+        "The teacher's phone advertises a session with a 5-minute countdown; students browse for it nearby, connect, and send their name, ERP number, and device ID in one tap.",
+        "Proxy prevention: each packet carries the device's <code>identifierForVendor</code> UUID, so a second submission from the same phone is rejected with \"Proxy not permitted\".",
+        "Teachers create courses, add students by hand or import them from CSV, and review attendance in three tabs: a calendar of past sessions, a searchable student list with attendance percentages (flagged red at 60% or below), and per-session history.",
+        "Persistence uses a Core Data schema of Courses, Students, and Attendance behind a repository layer, with CVCalendar for the monthly view."
+      ],
+      tags:["Swift","UIKit","MultipeerConnectivity","Core Data","CocoaPods","iOS"]
+    },
+    {
+      fav:"🏭", url:"github.com/Maaz5hamim/WarehouseFlow", bc:"projects",
+      href:"https://github.com/Maaz5hamim/WarehouseFlow",
+      area:"Data Engineering",
+      name:"WarehouseFlow — Airflow ETL Pipeline and Star-Schema Data Warehouse",
+      year:"2024",
+      chips:["2024","Apache Airflow · MySQL","Star Schema · ETL","Docker Compose"],
+      snippet:"End-to-end data pipeline for a fictional auto parts retailer: an OLTP production database flows through a staging area into a star-schema data warehouse and out as BI-ready snapshots, all orchestrated by five chained Apache Airflow DAGs on Docker.",
+      bullets:[
+        "Three MySQL schemas in one container: the <b>production</b> OLTP source, a flattened <b>staging_area</b>, and the <b>data_warehouse</b> star schema with an Inventory Transactions fact table and six dimensions (Product, Supplier, Customer, Warehouse, Date, Transaction Type).",
+        "Five DAGs run as one pipeline, each triggering the next with <code>TriggerDagRunOperator</code>: extract, transform, load, snapshot, and analytical queries. Triggering the first one runs the whole thing end to end.",
+        "Extract denormalizes dimensions and merges purchase orders and sales into one transaction stream. Transform builds the date hierarchy, fills missing foreign keys with <code>N/A</code> placeholder rows, derives total cost, and generates ydata-profiling data quality reports.",
+        "Loads are idempotent (<code>INSERT IGNORE</code>), so reruns are safe. The snapshot stage exports Procurement, Revenue, and Inventory data marts as CSVs and appends a versioned inventory summary.",
+        "Analytical queries report inventory turnover by category, early vs. late shipment rates by supplier, and gross margin per product."
+      ],
+      tags:["Python","Apache Airflow","MySQL","Docker","ETL","Data Warehousing","Star Schema","pandas","ydata-profiling"]
     }
   ],
 
@@ -457,11 +526,14 @@ const P = {
   ],
 
   news:[
-    {e:"🧠",src:"JHU Department of Computer Science",ttl:"ShuntMRI: 3D U-Net pipeline achieves 0.92 Dice score on MRI shunt artifact detection and 96% catheter accuracy",dt:"2026"},
-    {e:"🔬",src:"JHU S4 Lab Research Spotlight",ttl:"Surgical phase segmentation without annotations: PELT changepoint detection enables clean VLM fine-tuning datasets from raw OR footage",dt:"2026"},
-    {e:"📰",src:"Computational Journalism Lab",ttl:"Media Framing Analysis Pipeline: measuring news outlet ideological divergence across 1,500+ articles with Prediction-Powered Inference validation",dt:"2025"},
-    {e:"🚀",src:"EdTech Pakistan",ttl:"Arête crosses 1,000 active university users — WebSocket exam runtime delivers under 50ms proctoring latency at scale",dt:"2025"},
-    {e:"🦀",src:"Rustaceans Weekly",ttl:"ShareSphere: a peer-to-peer file sharing desktop app in Rust with egui, Tokio, and a custom binary TCP protocol — no cloud required",dt:"2024"}
+    {e:"🔬",src:"S4 Lab · Johns Hopkins University",ttl:"Maaz joins the S4 Lab as a Graduate Researcher on the Smart Intersection Testbed, Baltimore's first AI-powered intersection at N Charles St and University Parkway",dt:"2025"},
+    {e:"🏛️",src:"Johns Hopkins University",ttl:"Maaz starts an MS in Computer Science at the Whiting School of Engineering, focusing on systems, machine learning, and computer vision",dt:"Aug 2025"},
+    {e:"🧑‍🏫",src:"Kiran Foundation",ttl:"Maaz mentors 40+ underserved students in Python, algorithmic thinking, and AI fundamentals over the summer",dt:"May — Jul 2025"},
+    {e:"💻",src:"Systems Limited",ttl:"Maaz joins Systems Limited as an Associate Software Engineer, building real-time payment infrastructure and ISO 20022 migrations for banks in 5 countries",dt:"Aug 2024"},
+    {e:"🚀",src:"Arête Assessment Platform",ttl:"Arête launches with Maaz as Lead Software Engineer, and the adaptive assessment platform grows to 1,000+ active university students",dt:"2024"},
+    {e:"🎓",src:"IBA Karachi",ttl:"Maaz graduates with a BS in Computer Science from IBA Karachi with a 3.74 GPA and Dean's List recognition",dt:"June 2024"},
+    {e:"📡",src:"PTCL",ttl:"Maaz joins PTCL's Sales Division as a Data and Analytics Intern, automating Teradata ingestion for an executive analytics dashboard",dt:"May 2023"},
+    {e:"🏫",src:"IBA Karachi",ttl:"Maaz begins a BS in Computer Science at the Institute of Business Administration, Karachi",dt:"Fall 2020"}
   ]
 };
 
@@ -568,23 +640,35 @@ function renderList(section){
         {goto:'contact',title:'Contact',desc:'mshamim2@jh.edu · 410-805-2285'}
       ]
     }));
+    const demo=document.createElement('div'); demo.className='result demo'; demo.style.animationDelay='55ms';
+    demo.innerHTML=`
+      <div class="demo-label"><span class="demo-dot"></span>Live demo · Try it yourself</div>
+      <h3 class="demo-ttl">Call my AI voice agent</h3>
+      <div class="demo-txt">Talk to <b>Emma</b>, a real-time voice agent I built to register patients over the phone. She collects your details, saves them to a database, and verifies you with a one-time SMS code, all through natural conversation. Ask for Spanish and she switches languages.</div>
+      <div class="demo-row">
+        <a class="demo-call" href="tel:${P.demoPhone}">📞 Call ${P.demoPhoneLabel}</a>
+        <a class="demo-link" href="https://github.com/Maaz5hamim/Patient-Registration-Agent" target="_blank" rel="noopener">See how it works ›</a>
+      </div>
+      <div class="demo-note">US number · Feel free to use made-up details. The SMS code goes to the phone you call from.</div>
+      <div class="r-keyinfo demo-chips">${['Pipecat','Deepgram STT/TTS','OpenAI','Telnyx','FastAPI · MongoDB'].map(c=>`<span class="ki-chip">${c}</span>`).join('')}</div>`;
+    list.append(demo);
     list.append(makeCard({fav:'🚀',url:'risewitharete.online',bc:'experience',
       title:'Lead Software Engineer · Arête Assessment Platform',
       chips:['2024 – Present','Node.js · Redis · MongoDB','1,000+ Users','Sub-50ms Latency'],
       snippet:'Built Arête from the ground up. A high-concurrency microservices backend serving 1,000+ active university students with a real time WebSocket exam runtime under 50ms and a 40% improvement in analytics pipeline performance.',
       bullets:P.experience[1].bullets,tags:P.experience[1].tags,
-      href:'https://risewitharete.online',delay:1
+      href:'https://risewitharete.online',delay:2
     }));
     list.append(makeCard({fav:'🔬',url:'engineering.jhu.edu',bc:'experience',
       title:'Graduate Researcher · S4 Lab, Johns Hopkins University',
       chips:['2025 – Present','JHU S4 Lab','Jetson AGX Orin · Ouster LiDAR','Smart Intersection · Baltimore'],
       snippet:'Working on the Smart Intersection Testbed at JHU\'s S4 Lab — instrumenting a real signalized intersection in Baltimore with dual LiDAR and camera sensing for real time edge based perception, in collaboration with the City of Baltimore and TS&T.',
-      bullets:P.experience[0].bullets,tags:P.experience[0].tags,delay:2
+      bullets:P.experience[0].bullets,tags:P.experience[0].tags,delay:3
     }));
     list.append(makeCard({fav:'📇',url:P.website,bc:'contact',
       title:`Contact ${P.name}`,
       chips:['Open to opportunities','Jan 2027'],
-      snippet:`<b>${P.email}</b> · ${P.phone} · ${P.linkedin}`,delay:3
+      snippet:`<b>${P.email}</b> · ${P.phone} · ${P.linkedin}`,delay:4
     }));
   }
 
@@ -628,10 +712,17 @@ function renderList(section){
 
   else if(section==='projects'){
     $('#stats').textContent=fmt(P.projects.length);
-    P.projects.forEach((p,i)=>list.append(makeCard({
-      fav:p.fav,url:p.url,bc:p.bc,
-      title:p.name,chips:p.chips,snippet:p.snippet,bullets:p.bullets,tags:p.tags,delay:i
-    })));
+    let i=0;
+    [...new Set(P.projects.map(p=>p.area))].forEach(area=>{
+      const items=P.projects.filter(p=>p.area===area);
+      const grp=document.createElement('details'); grp.className='grp'; grp.open=true;
+      grp.innerHTML=`<summary class="grp-h"><span>${area}</span><span class="grp-n">${items.length}</span><span class="grp-chev">▾</span></summary>`;
+      items.forEach(p=>grp.append(makeCard({
+        fav:p.fav,url:p.url,bc:p.bc,href:p.href,
+        title:p.name,chips:p.chips,snippet:p.snippet,bullets:p.bullets,tags:p.tags,delay:i++
+      })));
+      list.append(grp);
+    });
   }
 
   else if(section==='images'){
